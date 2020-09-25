@@ -1,0 +1,4 @@
+.vs/
+resources/
+src/*/bin/
+src/*/obj/
