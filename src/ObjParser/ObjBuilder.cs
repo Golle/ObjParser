@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace ObjParser
 {
@@ -56,9 +57,7 @@ namespace ObjParser
 
         internal void AddGroup(in ReadOnlySpan<string> group)
         {
-            _groups.Add(_currentGroup);
-
-            _currentGroup = new ObjGroup(group.Length > 0 ? group[0] : null);
+            _groups.Add(_currentGroup = new ObjGroup(group.Length > 0 ? group[0] : null));
         }
 
         internal void AddSmoothGroup(in ReadOnlySpan<string> smooth)
@@ -86,7 +85,12 @@ namespace ObjParser
                     .ToArray();
                 vertices[i] = new Vertex(values[0], values[1], values[2]);
             }
-            
+
+            if (_currentGroup == null)
+            {
+                // If there's no group, create a default unnamed group.
+                _groups.Add(_currentGroup = new ObjGroup());
+            }
             _currentGroup.AddFace(new ObjFace(_currentMaterialIndex, _smoothGroup, vertices));
         }
 
