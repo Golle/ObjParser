@@ -80,8 +80,8 @@ namespace ObjParser
 
             for (var i = 0; i < face.Length; ++i)
             {
-                var values = face[0].Split('/', StringSplitOptions.TrimEntries)
-                    .Select(int.Parse)
+                var values = face[i].Split('/', StringSplitOptions.TrimEntries)
+                    .Select(x => int.Parse(x) - 1) // Subtract 1 since .obj file array index starts at 1
                     .ToArray();
                 vertices[i] = new Vertex(values[0], values[1], values[2]);
             }
